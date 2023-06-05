@@ -1,0 +1,79 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1{
+    text-align: center;
+    color: darkblue
+}
+.buscar{
+    text-align: center;
+}
+.main{
+    margin: auto;
+
+    width: 70%;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    gap: 20px;
+
+    background-color: bisque;
+}
+
+.peliculas, .peliculas2{
+    width: 250px;  
+    background-color: blueviolet; 
+    border-radius: 15px;
+
+    padding: 15px;
+}
+
+.imagenes{
+    object-fit: cover;
+    width:100%;
+}
+
+
+.botonAgregar{
+    margin-top: 50px;
+
+    display: grid;
+    place-items: center;
+}
+
+.agregarPeli{
+    margin-top: 50px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding: 8px;
+    
+    width: 58%;
+    background-color: lightskyblue;
+    gap: 15px;
+
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center;
+
+}
+
+.formulario{
+
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap:15px;
+}
