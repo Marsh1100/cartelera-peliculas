@@ -8,12 +8,15 @@ h1{
     text-align: center;
     color: darkblue
 }
+h4{
+    color: white;
+}
 .buscar{
     text-align: center;
 }
 .main{
     margin: auto;
-
+    padding-top: 60px;
     width: 70%;
 
     display: flex;
@@ -23,12 +26,11 @@ h1{
 
     gap: 20px;
 
-    background-color: bisque;
 }
 
-.peliculas, .peliculas2{
+.peliculas{
     width: 250px;  
-    background-color: blueviolet; 
+    background-color: darkblue; 
     border-radius: 15px;
 
     padding: 15px;
@@ -37,7 +39,19 @@ h1{
 .imagenes{
     object-fit: cover;
     width:100%;
+    
 }
+
+.info-peliculas{
+    background-color: azure;
+    margin-top: 0px;
+    padding: 10px;
+    padding-top: 0;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+
+}
+
 
 
 .botonAgregar{
@@ -47,6 +61,7 @@ h1{
     place-items: center;
 }
 
+
 .agregarPeli{
     margin-top: 50px;
 
@@ -55,7 +70,7 @@ h1{
 
     padding: 8px;
     
-    width: 58%;
+    width: 40%;
     background-color: lightskyblue;
     gap: 15px;
 
@@ -70,10 +85,17 @@ h1{
 
 .formulario{
 
-    display: flex;
-    justify-items: center;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap:15px;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap:15px
+    
+}
+
+.bi{
+    background-color: transparent;
+    border: none;
+}
+
+.hidden{
+    display: none;
 }
