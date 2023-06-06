@@ -2,11 +2,14 @@
 //Boton agregar
 const botonAgregar = document.getElementById('agregar-pelicula');
 botonAgregar.addEventListener('click',function(){
+    document.getElementById('main').style.filter='blur(5px)';
     document.getElementById('agregar-peli').style.display='flex';
+
 });
 
-//Contenedor main
+//Contenedor main 
 let contenedorPeliculas = document.getElementById('main-peliculas');
+
 //Datos del formulario 
 let titulo = document.getElementById('titulo');
 let genero = document.getElementById('genero');
@@ -16,18 +19,16 @@ let imagen = document.getElementById('imagen');
 
 //Formulario
 let form = document.getElementById('nueva-pelicula');
-//Películas individuales
-let minions = new Map([["titulo","Los minions"],["genero","Animada"],["duracion","2h 15m"],["director","Juan Martínez"],["imagen","https://es.web.img3.acsta.net/pictures/15/02/04/12/29/183973.jpg"]]);
-let frozen = new Map([["titulo","Frozen"],["genero","Animada"],["duracion","1h 48m"],["director","Jennifer Lee"],["imagen","https://lumiere-a.akamaihd.net/v1/images/p_frozen_18373_3131259c.jpeg?region=0%2C0%2C540%2C810"]]);
 
+//Mapa de películas 
 let peliculas =new Map([
-    ["0",new Map([
+    /* ["0",new Map([
         ["titulo","Los minions"],
         ["genero","Animada"],
         ["duracion","1h 31m"],
         ["director","Pierre Coffin"],
         ["imagen","https://es.web.img3.acsta.net/pictures/15/02/04/12/29/183973.jpg"]
-    ])],
+    ])], */
         
     ["1",new Map([
             ["titulo","Frozen"],
@@ -54,44 +55,22 @@ let peliculas =new Map([
     ])],
         
 ]);
-mostrarPeliculas(peliculas);
-//Evento submit del formulario
-form.addEventListener('submit',function(e){
-    e.preventDefault(); // Evitar el envío del formulario
-    e.stopPropagation();
 
-    let namePeli =String(peliculas.size);
-    console.log(namePeli);
-
-    let pelicula = new Map();
-    pelicula.set("titulo",titulo.value);
-    pelicula.set("genero",genero.value);
-    pelicula.set("duracion",duracion.value);
-    pelicula.set("director",director.value);
-    pelicula.set("imagen",imagen.value);
-
-    peliculas.set(namePeli,pelicula)
-
-    mostrarPeliculas(peliculas);
-    
-    form.reset();
-    document.getElementById('agregar-peli').style.display='none';
-
-});
-
+// Función para recorrer el mapa de peliculas
 function mostrarPeliculas(pelis){
-
+    // Se inicializa el contenedor main vacio
     contenedorPeliculas.innerHTML="";
+
     pelis.forEach(function(e,index){
 
-        //console.log(e)
         let idd = "peli"+String(index);
-       // console.log((idd))
+
         let nuevaPelicula = document.createElement("div");
         nuevaPelicula.setAttribute("class","peliculas");
         nuevaPelicula.setAttribute("id", index);
 
         contenedorPeliculas.appendChild(nuevaPelicula);
+
         document.getElementById(`${index}`).innerHTML=`
         <h4>${e.get("titulo")}</h4>
         <img type="image" src="${e.get("imagen")}" class="imagenes">
@@ -101,11 +80,63 @@ function mostrarPeliculas(pelis){
             <p><b>Director</b>${e.get("director")}</p>
             <button class="bi bi-trash-fill" id="${idd}"></button>
         </div>`;
-        
- 
     });
         
 };
+
+//Función Validar URL
+function validarURL(miurl) {
+    try {
+   
+      new URL(miurl);
+      return true;
+   
+    } catch (err) {
+   
+      return false;
+   
+    }
+  }
+//Inicializar las películas (que se muestran en el HTML)
+mostrarPeliculas(peliculas);
+
+//Evento submit del formulario Crear nueva película
+form.addEventListener('submit',function(e){
+    e.preventDefault(); // Evitar el envío del formulario
+    e.stopPropagation();
+
+    //Creación del mapa con la información
+    let pelicula = new Map();
+    pelicula.set("titulo",titulo.value);
+    pelicula.set("genero",genero.value);
+    pelicula.set("duracion",duracion.value);
+    pelicula.set("director",director.value);
+
+    if(validarURL(imagen.value)){
+        pelicula.set("imagen",imagen.value);
+    }else{
+        pelicula.set("imagen","https://previews.123rf.com/images/candyman/candyman0705/candyman070500301/949420-vertical-tira-de-pel%C3%ADcula.jpg");
+    }
+
+    
+
+
+    //Key único para identificar nueva pelicula
+    let keyPeli = uuid.v1();
+    console.log(keyPeli);
+
+    //Asignación de la nueva película al mapa de peliculas
+    peliculas.set(keyPeli,pelicula)
+
+    mostrarPeliculas(peliculas);
+    
+    form.reset();
+    document.getElementById('agregar-peli').style.display='none';
+    document.getElementById('main').style.filter='';
+    
+
+});
+
 
 
 //Capturar el boton buscar
@@ -113,30 +144,40 @@ const botonBuscar = document.getElementById('buscar-peli');
 let nombrePeli = document.getElementById('nombrePelicula');
 
 botonBuscar.addEventListener('click',function(){
-    let mostrarPeliBuscar = new Map ();
+    //Mapa para contener las peliculas que tienen similitudes de búsqueda
+    let mapaPeliBuscar = new Map ();
 
     let peliBuscar = nombrePeli.value.toUpperCase();
+
+    if (peliBuscar==''){
+        mostrarPeliculas(peliculas);
+        return
+    }
+
     let contador = 0;
+    //Se recorre el mapa de películas para comparar con la búsqueda del placeholder
     peliculas.forEach(function(value,key){
-        console.log(peliculas.get(key).get("titulo"));
         let titulo = peliculas.get(key).get("titulo").toUpperCase();
         
         if(titulo.includes(peliBuscar)){
-            mostrarPeliBuscar.set(contador,value);
+            mapaPeliBuscar.set(contador,value);
             contador += 1;
         }
     });
 
-    if(mostrarPeliBuscar.size>0){
-        console.log(mostrarPeliBuscar)
-        mostrarPeliculas(mostrarPeliBuscar);
+    if(mapaPeliBuscar.size>0){
+        mostrarPeliculas(mapaPeliBuscar);
     }else{
-        mostrarPeliculas(peliculas);
+        Swal.fire({
+            //title: 'Sweet!',
+            text: 'No se encuentra la película que estás buscando...',
+            imageUrl: 'https://cdn-icons-png.flaticon.com/512/3770/3770668.png',
+            imageWidth: 200,
+            imageAlt: 'Custom image',
+          })
     }
 
 });
-
-
 
 
 //Eliminar película
