@@ -18,7 +18,7 @@ h4{
 .buscar{
     text-align: center;
 }
-.main{
+.peliculas-main{
     padding-top: 20px;
     margin: auto;
     width: 70%;
@@ -34,6 +34,7 @@ h4{
 
 .peliculas{
     width: 250px;  
+    height: 60vh;
     background-color: darkblue; 
     border-radius: 15px;
 
@@ -68,17 +69,15 @@ h4{
 
 
 .agregarPeli{
-    margin-top: 50px;
-    margin-bottom: 50px;
-
-
-    margin-left: auto;
-    margin-right: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
     padding: 8px;
     
-    width: 55%;
-    background-color: lightskyblue;
+    width: 40%;
+    background-color: rgb(36, 38, 39);
     gap: 15px;
 
     border-radius: 15px;
@@ -102,7 +101,9 @@ h4{
 
     display: grid;
     grid-template-columns: auto auto;
-    gap:15px
+    gap:15px;
+
+    color:white;
     
 }
 
